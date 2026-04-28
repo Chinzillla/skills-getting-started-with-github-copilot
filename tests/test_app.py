@@ -1,3 +1,5 @@
+from urllib.parse import quote
+
 from src.app import activities
 
 
@@ -31,7 +33,7 @@ def test_signup_adds_new_participant(client):
     email = "new.student@mergington.edu"
 
     # Act
-    response = client.post(f"/activities/{activity_name}/signup", params={"email": email})
+    response = client.post(f"/activities/{quote(activity_name)}/signup", params={"email": email})
 
     # Assert
     assert response.status_code == 200
@@ -45,7 +47,7 @@ def test_signup_returns_404_for_missing_activity(client):
     email = "new.student@mergington.edu"
 
     # Act
-    response = client.post(f"/activities/{activity_name}/signup", params={"email": email})
+    response = client.post(f"/activities/{quote(activity_name)}/signup", params={"email": email})
 
     # Assert
     assert response.status_code == 404
@@ -58,7 +60,7 @@ def test_signup_returns_400_for_duplicate_participant(client):
     email = "michael@mergington.edu"
 
     # Act
-    response = client.post(f"/activities/{activity_name}/signup", params={"email": email})
+    response = client.post(f"/activities/{quote(activity_name)}/signup", params={"email": email})
 
     # Assert
     assert response.status_code == 400
@@ -72,7 +74,7 @@ def test_unregister_removes_existing_participant(client):
 
     # Act
     response = client.delete(
-        f"/activities/{activity_name}/participants", params={"email": email}
+        f"/activities/{quote(activity_name)}/participants", params={"email": email}
     )
 
     # Assert
@@ -88,7 +90,7 @@ def test_unregister_returns_404_for_missing_activity(client):
 
     # Act
     response = client.delete(
-        f"/activities/{activity_name}/participants", params={"email": email}
+        f"/activities/{quote(activity_name)}/participants", params={"email": email}
     )
 
     # Assert
@@ -103,7 +105,7 @@ def test_unregister_returns_404_for_missing_participant(client):
 
     # Act
     response = client.delete(
-        f"/activities/{activity_name}/participants", params={"email": email}
+        f"/activities/{quote(activity_name)}/participants", params={"email": email}
     )
 
     # Assert
